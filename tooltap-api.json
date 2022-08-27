@@ -1,0 +1,390 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "ToolTap API Services",
+        "version": "1.0",
+        "summary": "ToolTap API Services",
+        "description": "ToolTap is a set of APIs commonly used by Web apps, mobile apps, software businesses, SAAS, and other online projects. Our goal is to provide common services under one fair and transparent umbrella. ",
+        "contact": {
+            "name": "Dacoder",
+            "url": "https://github.com/dacoderc",
+            "email": "dacoderc@gmail.com"
+        },
+        "license": {
+            "identifier": "MIT",
+            "name": "MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://app.tooltap.app/api/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/account": {
+            "post": {
+                "summary": "Create account",
+                "description": "Create a new account using an email address",
+                "responses": {
+                    "200": {
+                        "description": "Normal response will deliver the newly created account details. Keep the Account ID for later validation and access request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Account"
+                                },
+                                "examples": {
+                                    "example-1": {
+                                        "value": {
+                                            "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                                            "email": "user@example.com",
+                                            "created_at": "2019-08-24T14:15:22Z"
+                                        }
+                                    }
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "operationId": "AccountCreate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "someone@example.com"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "normal use case": {
+                                    "value": {
+                                        "email": "someone@example.com"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": ""
+                },
+                "tags": [
+                    "account"
+                ],
+                "parameters": []
+            },
+            "parameters": []
+        },
+        "/account/{account_id}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Account UUID as received when the account was initially created"
+                }
+            ],
+            "get": {
+                "summary": "Get account details",
+                "description": "Get the details for a specific account, assuming requesting user has proper permissions",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Account"
+                                },
+                                "examples": {
+                                    "normal response": {
+                                        "value": {
+                                            "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                                            "email": "user@example.com",
+                                            "created_at": "2019-08-24T14:15:22Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "operationId": "AccountGetById",
+                "tags": [
+                    "account"
+                ],
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        },
+        "/account/{account_id}/token/auth/email": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "post": {
+                "summary": "Account Validation",
+                "operationId": "AccountTokenAuthEmail",
+                "responses": {
+                    "200": {
+                        "description": "A successful request will return a message indicating to seek for the validation key in your email",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "This is merely an indication to get the validation key from your email"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "successful request": {
+                                        "value": {
+                                            "message": "please check your email for verification"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "account"
+                ],
+                "description": "Use this operation to start the account's validation process. \nThis operation will create a validation key and send it to your email. You'll need it later to generate an API access token with the AccountKeyValidate request "
+            }
+        },
+        "/account/{account_id}/token": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "post": {
+                "summary": "Validate access key",
+                "operationId": "AccountKeyValidate",
+                "responses": {
+                    "200": {
+                        "description": "Successful validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "normal response": {
+                                        "value": {
+                                            "token": "a long string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The validation failed for any reason, including validation expiration"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "validation_key": {
+                                        "type": "string",
+                                        "description": "Get this key from the validation process"
+                                    },
+                                    "method": {
+                                        "type": "string",
+                                        "description": "Currently only email validation is supported",
+                                        "enum": [
+                                            "email"
+                                        ]
+                                    },
+                                    "": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "validation_key",
+                                    "method"
+                                ]
+                            },
+                            "examples": {
+                                "normal email validation": {
+                                    "value": {
+                                        "validation_key": "0000000",
+                                        "method": "email"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": ""
+                },
+                "tags": [
+                    "account"
+                ],
+                "description": "Generate API access token.\nUse this operation to get your API access token, which will allow you to make API requests. \nNote: this operation requires an account validation key which will be sent to your email using the \"AccountTokenAuthEmail\" request"
+            }
+        },
+        "/geo/ipv4/{ip}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "ip",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "get": {
+                "summary": "Resolve IPv4 to geo-location",
+                "tags": [
+                    "geo"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/GeoLocationDetailed"
+                    }
+                },
+                "operationId": "GeoGetIPv4",
+                "description": "Resolve IPv4 info into geo-location data",
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Account": {
+                "title": "Account",
+                "x-stoplight": {
+                    "id": "gq2mu0m4cc9je"
+                },
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "GeoLocationDetailed": {
+                "description": "Example response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ipv4": {
+                                    "type": "string",
+                                    "format": "ipv4"
+                                },
+                                "country_code": {
+                                    "type": "string"
+                                },
+                                "country_name": {
+                                    "type": "string"
+                                },
+                                "continent_code": {
+                                    "type": "string"
+                                },
+                                "continent_name": {
+                                    "type": "string"
+                                },
+                                "currency_code": {
+                                    "type": "string"
+                                },
+                                "us_state_code": {
+                                    "type": "string"
+                                },
+                                "us_state_name": {
+                                    "type": "string"
+                                },
+                                "district": {
+                                    "type": "string"
+                                },
+                                "city": {
+                                    "type": "string"
+                                },
+                                "zip": {
+                                    "type": "string"
+                                },
+                                "latitude": {
+                                    "type": "number"
+                                },
+                                "longitude": {
+                                    "type": "number"
+                                },
+                                "timezone": {
+                                    "type": "string"
+                                },
+                                "tz_offset_utc": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": ""
+            }
+        }
+    },
+    "x-internal": false
+}
