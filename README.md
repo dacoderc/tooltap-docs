@@ -2,14 +2,14 @@
 
 ToolTap is a set of commonly used API services under a single umbrella
 
-## Project Status
-
-* **Supported services:** IP to GeoLocation (Geo API)
-* **Business Status:** Pilot, accepting design partners. Please read below
+<!-- theme: info -->
+> ### Project Status
+> * **Supported services:** IP to GeoLocation ([Geo API](./services/geo.md))
+> * **Business Status:** Pilot, accepting design partners. Please read below
 
 ## About ToolTap
 
-ToolTap is a developer-friendly set commonly used consumable API services, intended to get the job done with minimum hassle, with a transparent and business fairness approach.
+ToolTap is a developer-friendly set of commonly used consumable API services, intended to get the job done with minimum hassle, with a transparent and business fairness approach.
 
 At ToolTap we believe that:
 1. You want to focus on your main business or project's core, and consume the rest(ful) where possible; and 
@@ -19,7 +19,6 @@ At ToolTap we believe that:
 
 ## Usage 
 ToolTap is a Headless service, relying on developer's skills to read API documentations.  
-**No fancy registration forms**
 
 API documentations: 
 * [OpenAPI json (swagger)](tooltap-api.json)
