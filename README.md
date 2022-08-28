@@ -55,3 +55,18 @@ Being a design partner entitles you with the following benefits:
 Please note that the above benefits assume a design-partner level of engagement and cooperation.  
 We promise to be polite and fair, but we do need your help!
 
+## Status
+
+| Topic | Description | Status |
+| --- | --- | --- |
+| Geo Location | IPv4 to Geolocation | Production 
+
+## Roadmap
+
+| Topic | Description | Status |
+| --- | --- | --- |
+| Geo Location | IPv6 to Geolocation | Backlog |
+| QR Code | Generating QR code images based on strings and URLs | Backlog |
+| Link Shortener | Shortening URLs and auto-redirect | Backlog |
+
+
