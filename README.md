@@ -1,5 +1,3 @@
-# ToolTap API Services
-
 ToolTap is a set of commonly used API services under a single umbrella
 
 <!-- theme: info -->
