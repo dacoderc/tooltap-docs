@@ -64,7 +64,7 @@ We promise to be polite and fair, but we do need your help!
 | Topic | Description | Status |
 | --- | --- | --- |
 | Geo Location | IPv6 to Geolocation | Backlog |
-| QR Code | Generating QR code images based on strings and URLs | Backlog |
+| QR Code | Generating QR code images based on strings and URLs | Development |
 | Link Shortener | Shortening URLs and auto-redirect | Backlog |
 | Internal Framework | * Web3 authentication<br>* Crypto payments | Backlog
 
