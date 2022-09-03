@@ -2,7 +2,7 @@ ToolTap is a set of commonly used API services under a single umbrella
 
 <!-- theme: info -->
 > ### Project Status
-> * **Supported services:** IP to GeoLocation ([Geo API](./services/geo.md))
+> * **Supported services:** [IP to GeoLocation](./services/geo.md), [QR Code](./services/qrcode.md)
 > * **Business Status:** Pilot, accepting design partners. Please read below
 
 ## About ToolTap
@@ -44,7 +44,7 @@ Being a design partner entitles you with the following benefits:
   * Up to 50,000 calls per month
   * Up to 100 GB accumulative storage
   * Up to 50 GB network I/O per month
-  * Up to $200 worth of on-demand services
+  * Up to $200 worth of on-demand services per month
   * Monthly plans 100% free for 2 years
 * After 2 years, 15% discount on all On-Demand pricing and monthly plans, FOREVER
 * Get the opportunity to impact our existing products and ongoing roadmap
@@ -57,14 +57,15 @@ We promise to be polite and fair, but we do need your help!
 
 | Topic | Description | Status |
 | --- | --- | --- |
-| Geo Location | IPv4 to Geolocation | Production 
+| Geo Location | IPv4 to Geolocation | Production |
+| QR Code | Generating QR code images based on strings and URLs. Full feature list here. | Production |
 
 ## Roadmap
 
 | Topic | Description | Status |
 | --- | --- | --- |
 | Geo Location | IPv6 to Geolocation | Backlog |
-| QR Code | Generating QR code images based on strings and URLs | Development |
+| QR Code | Feature: return QR Code image as a public or private URL  | Backlog |
 | Link Shortener | Shortening URLs and auto-redirect | Backlog |
 | Internal Framework | * Web3 authentication<br>* Crypto payments | Backlog
 
