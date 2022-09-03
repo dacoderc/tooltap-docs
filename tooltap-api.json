@@ -1,390 +1,647 @@
 {
-    "openapi": "3.1.0",
-    "info": {
-        "title": "ToolTap API Services",
-        "version": "1.0",
-        "summary": "ToolTap API Services",
-        "description": "ToolTap is a set of APIs commonly used by Web apps, mobile apps, software businesses, SAAS, and other online projects. Our goal is to provide common services under one fair and transparent umbrella. ",
-        "contact": {
-            "name": "Dacoder",
-            "url": "https://github.com/dacoderc",
-            "email": "dacoderc@gmail.com"
-        },
-        "license": {
-            "identifier": "MIT",
-            "name": "MIT"
-        }
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ToolTap API Services",
+    "version": "1.0",
+    "summary": "ToolTap API Services",
+    "description": "ToolTap is a set of APIs commonly used by Web apps, mobile apps, software businesses, SAAS, and other online projects. Our goal is to provide common services under one fair and transparent umbrella. ",
+    "contact": {
+      "name": "Dacoder",
+      "url": "https://github.com/dacoderc",
+      "email": "dacoderc@gmail.com"
     },
-    "servers": [
-        {
-            "url": "https://app.tooltap.app/api/v1",
-            "description": "Production server"
-        }
-    ],
-    "paths": {
-        "/account": {
-            "post": {
-                "summary": "Create account",
-                "description": "Create a new account using an email address",
-                "responses": {
-                    "200": {
-                        "description": "Normal response will deliver the newly created account details. Keep the Account ID for later validation and access request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Account"
-                                },
-                                "examples": {
-                                    "example-1": {
-                                        "value": {
-                                            "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-                                            "email": "user@example.com",
-                                            "created_at": "2019-08-24T14:15:22Z"
-                                        }
-                                    }
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {}
-                                }
-                            }
-                        }
+    "license": {
+      "identifier": "MIT",
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://app.tooltap.app/api/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/account": {
+      "post": {
+        "summary": "Create account",
+        "description": "Create a new account using an email address",
+        "responses": {
+          "200": {
+            "description": "Normal response will deliver the newly created account details. Keep the Account ID for later validation and access request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "email": "user@example.com",
+                      "created_at": "2019-08-24T14:15:22Z"
                     }
-                },
-                "operationId": "AccountCreate",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "someone@example.com"
-                                    }
-                                }
-                            },
-                            "examples": {
-                                "normal use case": {
-                                    "value": {
-                                        "email": "someone@example.com"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "description": ""
-                },
-                "tags": [
-                    "account"
-                ],
-                "parameters": []
-            },
-            "parameters": []
-        },
-        "/account/{account_id}": {
-            "parameters": [
-                {
-                    "schema": {
-                        "type": "string"
-                    },
-                    "name": "account_id",
-                    "in": "path",
-                    "required": true,
-                    "description": "Account UUID as received when the account was initially created"
+                  }
                 }
-            ],
-            "get": {
-                "summary": "Get account details",
-                "description": "Get the details for a specific account, assuming requesting user has proper permissions",
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Account"
-                                },
-                                "examples": {
-                                    "normal response": {
-                                        "value": {
-                                            "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-                                            "email": "user@example.com",
-                                            "created_at": "2019-08-24T14:15:22Z"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "operationId": "AccountGetById",
-                "tags": [
-                    "account"
-                ],
-                "security": [
-                    {
-                        "Token": []
-                    }
-                ]
-            }
-        },
-        "/account/{account_id}/token/auth/email": {
-            "parameters": [
-                {
-                    "schema": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "name": "account_id",
-                    "in": "path",
-                    "required": true
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
                 }
-            ],
-            "post": {
-                "summary": "Account Validation",
-                "operationId": "AccountTokenAuthEmail",
-                "responses": {
-                    "200": {
-                        "description": "A successful request will return a message indicating to seek for the validation key in your email",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "description": "This is merely an indication to get the validation key from your email"
-                                        }
-                                    }
-                                },
-                                "examples": {
-                                    "successful request": {
-                                        "value": {
-                                            "message": "please check your email for verification"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "account"
-                ],
-                "description": "Use this operation to start the account's validation process. \nThis operation will create a validation key and send it to your email. You'll need it later to generate an API access token with the AccountKeyValidate request "
+              }
             }
+          }
         },
-        "/account/{account_id}/token": {
-            "parameters": [
-                {
-                    "schema": {
-                        "type": "string"
-                    },
-                    "name": "account_id",
-                    "in": "path",
-                    "required": true
-                }
-            ],
-            "post": {
-                "summary": "Validate access key",
-                "operationId": "AccountKeyValidate",
-                "responses": {
-                    "200": {
-                        "description": "Successful validation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "token": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "examples": {
-                                    "normal response": {
-                                        "value": {
-                                            "token": "a long string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "The validation failed for any reason, including validation expiration"
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "validation_key": {
-                                        "type": "string",
-                                        "description": "Get this key from the validation process"
-                                    },
-                                    "method": {
-                                        "type": "string",
-                                        "description": "Currently only email validation is supported",
-                                        "enum": [
-                                            "email"
-                                        ]
-                                    },
-                                    "": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "validation_key",
-                                    "method"
-                                ]
-                            },
-                            "examples": {
-                                "normal email validation": {
-                                    "value": {
-                                        "validation_key": "0000000",
-                                        "method": "email"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "description": ""
-                },
-                "tags": [
-                    "account"
-                ],
-                "description": "Generate API access token.\nUse this operation to get your API access token, which will allow you to make API requests. \nNote: this operation requires an account validation key which will be sent to your email using the \"AccountTokenAuthEmail\" request"
-            }
-        },
-        "/geo/ipv4/{ip}": {
-            "parameters": [
-                {
-                    "schema": {
-                        "type": "string"
-                    },
-                    "name": "ip",
-                    "in": "path",
-                    "required": true
-                }
-            ],
-            "get": {
-                "summary": "Resolve IPv4 to geo-location",
-                "tags": [
-                    "geo"
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/GeoLocationDetailed"
-                    }
-                },
-                "operationId": "GeoGetIPv4",
-                "description": "Resolve IPv4 info into geo-location data",
-                "security": [
-                    {
-                        "Token": []
-                    }
-                ]
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Account": {
-                "title": "Account",
-                "x-stoplight": {
-                    "id": "gq2mu0m4cc9je"
-                },
+        "operationId": "AccountCreate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "someone@example.com"
+                  }
                 }
-            }
-        },
-        "responses": {
-            "GeoLocationDetailed": {
-                "description": "Example response",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "ipv4": {
-                                    "type": "string",
-                                    "format": "ipv4"
-                                },
-                                "country_code": {
-                                    "type": "string"
-                                },
-                                "country_name": {
-                                    "type": "string"
-                                },
-                                "continent_code": {
-                                    "type": "string"
-                                },
-                                "continent_name": {
-                                    "type": "string"
-                                },
-                                "currency_code": {
-                                    "type": "string"
-                                },
-                                "us_state_code": {
-                                    "type": "string"
-                                },
-                                "us_state_name": {
-                                    "type": "string"
-                                },
-                                "district": {
-                                    "type": "string"
-                                },
-                                "city": {
-                                    "type": "string"
-                                },
-                                "zip": {
-                                    "type": "string"
-                                },
-                                "latitude": {
-                                    "type": "number"
-                                },
-                                "longitude": {
-                                    "type": "number"
-                                },
-                                "timezone": {
-                                    "type": "string"
-                                },
-                                "tz_offset_utc": {
-                                    "type": "number"
-                                }
-                            }
-                        }
-                    }
+              },
+              "examples": {
+                "normal use case": {
+                  "value": {
+                    "email": "someone@example.com"
+                  }
                 }
+              }
             }
+          },
+          "description": ""
         },
-        "securitySchemes": {
-            "Token": {
-                "type": "http",
-                "scheme": "bearer",
-                "description": ""
-            }
-        }
+        "tags": [
+          "account"
+        ],
+        "parameters": []
+      },
+      "parameters": []
     },
-    "x-internal": false
+    "/account/{account_id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "account_id",
+          "in": "path",
+          "required": true,
+          "description": "Account UUID as received when the account was initially created"
+        }
+      ],
+      "get": {
+        "summary": "Get account details",
+        "description": "Get the details for a specific account, assuming requesting user has proper permissions",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                },
+                "examples": {
+                  "normal response": {
+                    "value": {
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "email": "user@example.com",
+                      "created_at": "2019-08-24T14:15:22Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "AccountGetById",
+        "tags": [
+          "account"
+        ],
+        "security": [
+          {
+            "Token": []
+          }
+        ]
+      }
+    },
+    "/account/{account_id}/token/auth/email": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": "account_id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Account Validation",
+        "operationId": "AccountTokenAuthEmail",
+        "responses": {
+          "200": {
+            "description": "A successful request will return a message indicating to seek for the validation key in your email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "This is merely an indication to get the validation key from your email"
+                    }
+                  }
+                },
+                "examples": {
+                  "successful request": {
+                    "value": {
+                      "message": "please check your email for verification"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "description": "Use this operation to start the account's validation process. \nThis operation will create a validation key and send it to your email. You'll need it later to generate an API access token with the AccountKeyValidate request "
+      }
+    },
+    "/account/{account_id}/token": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "account_id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Validate access key",
+        "operationId": "AccountKeyValidate",
+        "responses": {
+          "200": {
+            "description": "Successful validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "normal response": {
+                    "value": {
+                      "token": "a long string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The validation failed for any reason, including validation expiration"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "validation_key": {
+                    "type": "string",
+                    "description": "Get this key from the validation process"
+                  },
+                  "method": {
+                    "type": "string",
+                    "description": "Currently only email validation is supported",
+                    "enum": [
+                      "email"
+                    ]
+                  },
+                  "": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "validation_key",
+                  "method"
+                ]
+              },
+              "examples": {
+                "normal email validation": {
+                  "value": {
+                    "validation_key": "0000000",
+                    "method": "email"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "account"
+        ],
+        "description": "Generate API access token.\nUse this operation to get your API access token, which will allow you to make API requests. \nNote: this operation requires an account validation key which will be sent to your email using the \"AccountTokenAuthEmail\" request"
+      }
+    },
+    "/geo/ipv4/{ip}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "ip",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Resolve IPv4 to geo-location",
+        "tags": [
+          "geo"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GeoLocationDetailed"
+          }
+        },
+        "operationId": "GeoGetIPv4",
+        "description": "Resolve IPv4 info into geo-location data",
+        "security": [
+          {
+            "Token": []
+          }
+        ]
+      }
+    },
+    "/qrcode": {
+      "get": {
+        "summary": "Create and get a custom-made QR-code image",
+        "tags": [
+          "qrcode"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/QRCode-JsonResponse"
+          }
+        },
+        "operationId": "QRCode:Generate[GET]",
+        "security": [
+          {
+            "Token": []
+          }
+        ],
+        "description": "Use this operation to create a custom-made QR code. \nBy default this operation requires only data to be encoded into the QR and returns a Base64-encoded image.\nUse the optional parameters to customize the result QR, with size, and colors.\nNote that GET requests are limited by URL-length, Please use POST to pass in more data",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "example": "hello world"
+            },
+            "in": "query",
+            "name": "data",
+            "description": "The data to be encoded into the QR code",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "number",
+              "default": 300,
+              "minimum": 100,
+              "example": 350
+            },
+            "in": "query",
+            "name": "size",
+            "description": "Size of the QR code in pixels. Resulting size may be bigger due to data amount"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "png",
+                "svg"
+              ],
+              "example": "png",
+              "default": "png"
+            },
+            "in": "query",
+            "name": "file",
+            "description": "File type to be generated. Options are PNG, SVG"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "white"
+            },
+            "in": "query",
+            "name": "bgcolor",
+            "description": "Image background color in hex code or color name, default white (#ffffff). For colors and names see here: https://htmlcolorcodes.com/color-names/"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "fillcolor",
+            "description": "QR pixels color in hex code or color name, default black (#000000). For colors and names see here: https://htmlcolorcodes.com/color-names/"
+          }
+        ]
+      },
+      "parameters": [],
+      "post": {
+        "summary": "",
+        "operationId": "QRCode:Generate[POST]",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/QRCode-JsonResponse"
+          }
+        },
+        "description": "Use this operation to create a custom-made QR code. \nBy default this operation requires only data to be encoded into the QR and returns a Base64-encoded image.\nUse the optional parameters to customize the result QR, with size, and colors.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/QRCode-Request"
+        }
+      }
+    },
+    "/qrcode/download": {
+      "get": {
+        "summary": "Create and download a custom-made QR-code image",
+        "tags": [
+          "qrcode"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/QRCode-JsonResponse"
+          }
+        },
+        "operationId": "QRCode:Download[GET]",
+        "security": [
+          {
+            "Token": []
+          }
+        ],
+        "description": "Use this operation to create and directly-download a custom-made QR code. \n\nBy default this operation requires only data to be encoded into the QR.\nUse the optional parameters to customize the result QR, with size, and colors.\nNote that GET requests are limited by URL-length, Please use POST to pass in more data",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "example": "hello world"
+            },
+            "in": "query",
+            "name": "data",
+            "description": "The data to be encoded into the QR code",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "number",
+              "default": 300,
+              "minimum": 100,
+              "example": 350
+            },
+            "in": "query",
+            "name": "size",
+            "description": "Size of the QR code in pixels. Resulting size may be bigger due to data amount"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "png",
+                "svg"
+              ],
+              "example": "png",
+              "default": "png"
+            },
+            "in": "query",
+            "name": "file",
+            "description": "File type to be generated. Options are PNG, SVG"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "white"
+            },
+            "in": "query",
+            "name": "bgcolor",
+            "description": "Image background color in hex code or color name, default white (#ffffff). For colors and names see here: https://htmlcolorcodes.com/color-names/"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "fillcolor",
+            "description": "QR pixels color in hex code or color name, default black (#000000). For colors and names see here: https://htmlcolorcodes.com/color-names/"
+          }
+        ]
+      },
+      "parameters": [],
+      "post": {
+        "summary": "",
+        "operationId": "QRCode:Download[POST]",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/QRCode-JsonResponse"
+          }
+        },
+        "description": "Use this operation to create and directly-download a custom-made QR code. \n\nBy default this operation requires only data to be encoded into the QR.\nUse the optional parameters to customize the result QR, with size, and colors.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/QRCode-Request"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "title": "Account",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "QRCode-Request": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "minLength": 1,
+                  "example": "hello world",
+                  "description": "The data to be encoded into the QR code"
+                },
+                "size": {
+                  "type": "number",
+                  "default": 300,
+                  "minimum": 100,
+                  "example": 350,
+                  "description": "Size of the QR code in pixels. Resulting size may be bigger due to data amount"
+                },
+                "file": {
+                  "type": "string",
+                  "enum": [
+                    "png",
+                    "svg"
+                  ],
+                  "example": "png",
+                  "default": "png",
+                  "description": "File type to be generated. Options are PNG, SVG"
+                },
+                "bgcolor": {
+                  "type": "string",
+                  "example": "white",
+                  "description": "Image background color in hex code or color name, default white (#ffffff). For colors and names see here: https://htmlcolorcodes.com/color-names/"
+                },
+                "fillcolor": {
+                  "type": "string",
+                  "example": "black",
+                  "description": "QR pixels color in hex code or color name, default black (#000000). For colors and names see here: https://htmlcolorcodes.com/color-names/"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            },
+            "examples": {
+              "example-1": {
+                "value": {
+                  "data": "hello world",
+                  "size": 300,
+                  "file": "png",
+                  "bgcolor": "white",
+                  "fillcolor": "black"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "QRCode-JsonResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "base64": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "Base64 response": {
+                "value": {
+                  "base64": "iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAACBUlEQVR4nO2aQW6jQBBF3zdI9g5yAnwTcjOcG8yRwkFGCicIvTNS8M+ibcd4McpIM0lHdG1Qdz0EX6VWdVeXzCcsbD5DQcb+MzboYocYE0l6hFtH4hLWgpVQvAEwl+cph4cTsHCkLGFl2JOkfRz3O1Rb2rFwJC9hFVh5O6hmgRxqmLRIZilLyNifsLChtVVDe/yyj2bs77DO9gtQne68F0f6ElaBlTDrMggP7ndHqtf48ocjaQnrwfCdHfEI7XJyTFnCejD8UtjjYsYn2JrGPlQG6HKwksCw7cP1AVtfgxVPYxR5ZSWDDZJt7WfZ9jNIG5jkvqQbsadc6EgGa2zVuN9atdUF2SdaX1aWVH7fv2VsYdezczMJCoNBZtpdR7kq9cMw4nHrYzuy9flUZtuHytGRsoSVYd2I9rNUA3COmfZAkPZzTm3pYIXVxP080B5RLTvIL7MO1TnDJS5hJVhMbUFmLqleN0w7wubUP3Kpcgxb56vMNLBFoWNULHTER85Z6WG318uWKp9TF0MJQTT5OJYQVsRl9QbIz5M8Qr+D5g0qQ+EcrISwm3vnD4s9HmLIHR3JYud6R7yj7Mav+WjG/iV230vQBjk8nPodNL/Lp1/W9/1bxu6sBOg6YCZWrRCC7ZHhJpApS1gVNsctYwlhQx97qdogKOxBcYOSuISVYMptwD8HewfF4CPG6iX3CgAAAABJRU5ErkJggg=="
+                }
+              }
+            }
+          }
+        },
+        "headers": {},
+        "description": "A JSON Response for QR Code generation. \nCurrently returns only base64-encoded binary."
+      },
+      "GeoLocationDetailed": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ipv4": {
+                  "type": "string",
+                  "format": "ipv4"
+                },
+                "country_code": {
+                  "type": "string"
+                },
+                "country_name": {
+                  "type": "string"
+                },
+                "continent_code": {
+                  "type": "string"
+                },
+                "continent_name": {
+                  "type": "string"
+                },
+                "currency_code": {
+                  "type": "string"
+                },
+                "us_state_code": {
+                  "type": "string"
+                },
+                "us_state_name": {
+                  "type": "string"
+                },
+                "district": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "zip": {
+                  "type": "string"
+                },
+                "latitude": {
+                  "type": "number"
+                },
+                "longitude": {
+                  "type": "number"
+                },
+                "timezone": {
+                  "type": "string"
+                },
+                "tz_offset_utc": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Token": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": ""
+      }
+    }
+  }
 }
